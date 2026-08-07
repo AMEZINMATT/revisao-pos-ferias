@@ -1,1 +1,26 @@
-GET http://localhost:3067/
+GET http://localhost:3067/active-movies
+
+###
+POST http://localhost:3067/create-movies
+Content-Type: application/json
+
+{
+    "name": "Maze Runner",
+    "genero": "Science Fiction",
+    "duracao": 120,
+    "classificacao_etria": 14
+}
+
+###
+DELETE http://localhost:3067/delete-movies/1
+
+###
+PUT http://localhost:3067/update-movies/2
+Content-Type: application/json
+
+{
+    "name": "Maze Runner",
+    "genero": "Science Fiction",
+    "duracao": 120,
+    "classificacao_etria": 14
+}
