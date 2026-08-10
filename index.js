@@ -3,14 +3,16 @@ import mysql2 from "mysql2"
 
 const app = express()
 
+app.use(express.json())
+
 //CRUD WKNGPADGADNMPGOOAD´PMG´POADG,A
 
 app.listen(3067 , () =>{
     console.log("servidor rodando na porta 67")
 })
 
-app.get("/active-movies", (request,response) => {
-    const selectCommand = "SELECT * FROM filmes_MatheusHenriquePaulaPereira WHERE status = 0"
+app.get("/show-movies", (request,response) => {
+    const selectCommand = "SELECT * FROM filmes_MatheusHenriquePaulaPereira"
 
     sql.query(selectCommand, (error, data) => {
         if (error)
@@ -93,5 +95,5 @@ const sql = mysql2.createPool({
     host: "benserverplex.ddns.net",
     user: "alunos",
     password: "senhaAlunos",
-    database: "alunos_filmes03tb"
+    database: "alunos_filmes03TB"
 })
