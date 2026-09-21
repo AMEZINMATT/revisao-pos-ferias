@@ -1,16 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Frontend Filmes</title>
-</head>
-<body>
-    <h1>Lista de Filmes do Matheus Henrique e Paula Pereira </h1>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineVibe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-overlay"></div>
 
-    <section class="filmes"></section>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">🎬</span>
+        <div>
+          <strong>CineVibe</strong>
+          <small>Seu catálogo de filmes</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-view="catalogo">Catálogo</button>
+        <button class="nav-btn" data-view="cadastro">Cadastrar</button>
+        <button class="nav-btn" data-view="editar">Editar</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section id="catalogo" class="view active">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Em cartaz</p>
+            <h1>Filmes em destaque</h1>
+          </div>
+          <button id="refresh-btn" class="primary-btn">Atualizar</button>
+        </div>
+
+        <div id="movie-list" class="movie-grid"></div>
+      </section>
+
+      <section id="cadastro" class="view">
+        <div class="panel">
+          <p class="eyebrow">Nova aventura</p>
+          <h2>Cadastrar filme</h2>
+
+          <form id="add-form" class="movie-form">
+            <div class="input-group">
+              <label for="name">Nome do filme</label>
+              <input id="name" name="name" type="text" placeholder="Ex: Matrix" required />
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label for="genero">Gênero</label>
+                <input id="genero" name="genero" type="text" placeholder="Ação" required />
+              </div>
+
+              <div class="input-group">
+                <label for="duracao">Duração (min)</label>
+                <input id="duracao" name="duracao" type="number" min="1" placeholder="120" required />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="classificacao_etria">Classificação indicativa</label>
+              <input id="classificacao_etria" name="classificacao_etria" type="number" min="0" max="18" placeholder="12" required />
+            </div>
+
+            <button type="submit" class="primary-btn wide">Salvar filme</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="editar" class="view">
+        <div class="panel">
+          <p class="eyebrow">Atualizar</p>
+          <h2>Editar filme</h2>
+
+          <form id="edit-form" class="movie-form">
+            <input type="hidden" id="movie-id" />
+
+            <div class="input-group">
+              <label for="edit-name">Nome do filme</label>
+              <input id="edit-name" name="name" type="text" required />
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label for="edit-genero">Gênero</label>
+                <input id="edit-genero" name="genero" type="text" required />
+              </div>
+
+              <div class="input-group">
+                <label for="edit-duracao">Duração (min)</label>
+                <input id="edit-duracao" name="duracao" type="number" min="1" required />
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="edit-classificacao_etria">Classificação indicativa</label>
+              <input id="edit-classificacao_etria" name="classificacao_etria" type="number" min="0" max="18" required />
+            </div>
+
+            <button type="submit" class="primary-btn wide">Atualizar filme</button>
+          </form>
+        </div>
+      </section>
+    </main>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

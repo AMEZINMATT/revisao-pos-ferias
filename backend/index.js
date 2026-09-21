@@ -1,41 +1,44 @@
 import express from "express"
+import cors from "cors"
 import mysql2 from "mysql2"
 
 const app = express()
-
-app.use(express.json())
-
-//CRUD WKNGPADGADNMPGOOAD´PMG´POADG,A
-
-app.listen(3067 , () =>{
-    console.log("servidor rodando na porta 67")
+const sql = mysql2.createPool({
+    host: "benserverplex.ddns.net",
+    user: "alunos",
+    password: "senhaAlunos",
+    database: "alunos_filmes03TB"
 })
 
-app.get("/show-movies", (request,response) => {
+app.use(cors())
+app.use(express.json())
+
+app.get("/", (request, response) => {
+    response.json({ message: "API dos filmes funcionando" })
+})
+
+app.get("/show-movies", (request, response) => {
     const selectCommand = "SELECT * FROM filmes_MatheusHenriquePaulaPereira"
 
     sql.query(selectCommand, (error, data) => {
-        if (error)
-        {
+        if (error) {
             console.log(error)
-            return
+            return response.status(500).json({ message: "Erro ao buscar filmes" })
         }
 
         response.json(data)
     })
 })
 
-app.post("/create-movies", (request,response) => {
-    //console.log(request.body)
-
+app.post("/create-movies", (request, response) => {
     const { name, genero, duracao, classificacao_etria } = request.body
 
-    const insertCommand = "INSERT INTO filmes_MatheusHenriquePaulaPereira( name, genero, duracao, classificacao_etria ) VALUES (?, ?, ?, ?)"
+    const insertCommand = "INSERT INTO filmes_MatheusHenriquePaulaPereira(name, genero, duracao, classificacao_etria) VALUES (?, ?, ?, ?)"
 
-    sql.query(insertCommand,[name, genero, duracao, classificacao_etria], (error) => {
-        if (error){
+    sql.query(insertCommand, [name, genero, duracao, classificacao_etria], (error) => {
+        if (error) {
             console.log(error)
-            return
+            return response.status(500).json({ message: "Erro ao criar filme" })
         }
 
         response.status(201).json({
@@ -50,50 +53,35 @@ app.delete("/delete-movies/:id", (request, response) => {
     const deleteCommand = "DELETE FROM filmes_MatheusHenriquePaulaPereira WHERE id=?"
 
     sql.query(deleteCommand, [id], (error) => {
-
-            if (error) {
-                console.log(error)
-                return
-            }
-
-            response.json({
-                message: " Filme apagado com sucesso!"
-            })
-    })
-})
-
-// atualizar tarefas
-app.put("/update-movies/:id", async (request, response) => {
-    const { id } = request.params
-
-    const selectTaskCommand = "SELECT * FROM filmes_MatheusHenriquePaulaPereira WHERE id=?"
-
-    const task = await sql.promise().query(selectTaskCommand, [id], (error, data) => {
         if (error) {
             console.log(error)
-            return
+            return response.status(500).json({ message: "Erro ao excluir filme" })
         }
-        
-        return data
-    })
 
-    const updateCommand = "UPDATE filmes_MatheusHenriquePaulaPereira WHERE id=?"
-
-    sql.query(updateCommand, [task[0][0].status ? 0 : 1, id], (error) => {
-        if (error) {
-            console.log(error)
-            return
-        }
-        
         response.json({
-	        message: "Filme atualizado com sucesso!"
+            message: "Filme apagado com sucesso!"
         })
     })
 })
 
-const sql = mysql2.createPool({
-    host: "benserverplex.ddns.net",
-    user: "alunos",
-    password: "senhaAlunos",
-    database: "alunos_filmes03TB"
+app.put("/update-movies/:id", (request, response) => {
+    const { id } = request.params
+    const { name, genero, duracao, classificacao_etria } = request.body
+
+    const updateCommand = "UPDATE filmes_MatheusHenriquePaulaPereira SET name=?, genero=?, duracao=?, classificacao_etria=? WHERE id=?"
+
+    sql.query(updateCommand, [name, genero, duracao, classificacao_etria, id], (error) => {
+        if (error) {
+            console.log(error)
+            return response.status(500).json({ message: "Erro ao atualizar filme" })
+        }
+
+        response.json({
+            message: "Filme atualizado com sucesso!"
+        })
+    })
+})
+
+app.listen(3067, () => {
+    console.log("servidor rodando na porta 3067")
 })
